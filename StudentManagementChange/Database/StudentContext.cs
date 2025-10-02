@@ -45,7 +45,7 @@ public class StudentContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         b.Entity<Enrollment>()
-            .Property(e => e.Grade)
+            .Property(e => e.FinalGrade)
             .HasPrecision(3, 1);
     }
 }
