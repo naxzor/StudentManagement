@@ -17,6 +17,9 @@ public class StudentContext : DbContext
             .HasIndex(s => s.Email)
             .IsUnique();
 
+        b.Entity<Student>()
+            .Property(s => s.DateOfBirth)
+            .HasColumnType("date");
 
         b.Entity<Enrollment>()
             .HasOne(e => e.Student)
