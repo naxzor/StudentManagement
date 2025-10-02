@@ -1,3 +1,23 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Microsoft.EntityFrameworkCore;
+using StudentManagementChange.Data;
 
-Console.WriteLine("Hello, World!");
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<StudentContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"))
+);
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.MapGet("/", () => Results.Json(new { status = "ok" }));
+
+app.Run();
