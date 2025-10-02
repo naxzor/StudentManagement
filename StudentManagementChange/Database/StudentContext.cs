@@ -10,9 +10,14 @@ public class StudentContext : DbContext
     public DbSet<Student> Students => Set<Student>();
     public DbSet<Course> Courses => Set<Course>();
     public DbSet<Enrollment> Enrollments => Set<Enrollment>();
+    public DbSet<Instructor> Instructors => Set<Instructor>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {
+        b.Entity<Instructor>()
+            .HasIndex(s => s.Email)
+            .IsUnique();
+        
         b.Entity<Student>()
             .HasIndex(s => s.Email)
             .IsUnique();
@@ -21,6 +26,12 @@ public class StudentContext : DbContext
             .Property(s => s.DateOfBirth)
             .HasColumnType("date");
 
+        b.Entity<Course>()
+            .HasOne(c => c.Instructor)
+            .WithMany()
+            .HasForeignKey(c => c.InstructorId)
+            .OnDelete(DeleteBehavior.SetNull);
+        
         b.Entity<Enrollment>()
             .HasOne(e => e.Student)
             .WithMany(s => s.Enrollments)
