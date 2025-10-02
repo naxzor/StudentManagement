@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StudentManagementChange.Data;
@@ -11,9 +12,11 @@ using StudentManagementChange.Data;
 namespace StudentManagementChange.Migrations
 {
     [DbContext(typeof(StudentContext))]
-    partial class StudentContextModelSnapshot : ModelSnapshot
+    [Migration("20251002231917_AddInstructor")]
+    partial class AddInstructor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,16 +36,11 @@ namespace StudentManagementChange.Migrations
                     b.Property<int>("Credits")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("InstructorId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InstructorId");
 
                     b.ToTable("Courses");
                 });
@@ -58,7 +56,7 @@ namespace StudentManagementChange.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal?>("FinalGrade")
+                    b.Property<decimal?>("Grade")
                         .HasPrecision(3, 1)
                         .HasColumnType("numeric(3,1)");
 
@@ -140,16 +138,6 @@ namespace StudentManagementChange.Migrations
                         .IsUnique();
 
                     b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("StudentManagementChange.Models.Course", b =>
-                {
-                    b.HasOne("StudentManagementChange.Models.Instructor", "Instructor")
-                        .WithMany()
-                        .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Instructor");
                 });
 
             modelBuilder.Entity("StudentManagementChange.Models.Enrollment", b =>

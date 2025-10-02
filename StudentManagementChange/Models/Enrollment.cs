@@ -10,5 +10,5 @@ public class Enrollment
     public int CourseId { get; set; }
     public Course Course { get; set; } = null!;
 
-    public decimal? Grade { get; set; }  
+    public decimal? FinalGrade { get; set; }  
 }
