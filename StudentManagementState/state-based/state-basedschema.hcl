@@ -1,0 +1,93 @@
+schema "public" {}
+
+table "Students" {
+  schema = schema.public
+
+  column "Id" {
+    type = int
+    null = false
+  }
+  column "FirstName" {
+    type = varchar(255)
+    null = false
+  }
+  column "LastName" {
+    type = varchar(255)
+    null = false
+  }
+  column "Email" {
+    type = varchar(255)
+    null = false
+  }
+  column "EnrollmentDate" {
+    type = timestamp
+    null = false
+  }
+
+  primary_key {
+    columns = [column.Id]
+  }
+
+  index "IX_Students_Email" {
+    unique  = true
+    columns = [column.Email]
+  }
+}
+
+table "Courses" {
+  schema = schema.public
+
+  column "Id" {
+    type = int
+    null = false
+  }
+  column "Title" {
+    type = varchar(255)
+    null = false
+  }
+  column "Credits" {
+    type = int
+    null = false
+  }
+
+  primary_key {
+    columns = [column.Id]
+  }
+}
+
+table "Enrollments" {
+  schema = schema.public
+
+  column "Id" {
+    type = int
+    null = false
+  }
+  column "StudentId" {
+    type = int
+    null = false
+  }
+  column "CourseId" {
+    type = int
+    null = false
+  }
+  column "Grade" {
+    type = numeric(3,1)
+    null = true
+  }
+
+  primary_key {
+    columns = [column.Id]
+  }
+
+  foreign_key "fk_enrollments_student" {
+    columns     = [column.StudentId]
+    ref_columns = [table.Students.column.Id]
+    on_delete   = CASCADE
+  }
+
+  foreign_key "fk_enrollments_course" {
+    columns     = [column.CourseId]
+    ref_columns = [table.Courses.column.Id]
+    on_delete   = CASCADE
+  }
+}

@@ -1,0 +1,8 @@
+Show changes with Atlast
+
+docker run --rm -v "$(Get-Location):/work" -w /work arigaio/atlas:latest schema diff --from "postgres://postgres:1234@host.docker.internal:5432/StudentManagement_State?sslmode=disable" --to "file:///work/StudentManagementState/state-based/state-basedschema.hcl" --dev-url "postgres://postgres:1234@host.docker.internal:5432/postgres?sslmode=disable" --format "{{ sql . }}"
+
+
+Apply changes with atlast
+
+docker run --rm -v "$(Get-Location):/work" -w /work arigaio/atlas:latest schema apply --url "postgres://postgres:1234@host.docker.internal:5432/StudentManagement_State?sslmode=disable" --to "file:///work/StudentManagementState/state-based/state-basedschema.hcl" --dev-url "postgres://postgres:1234@host.docker.internal:5432/postgres?sslmode=disable" --auto-approve
