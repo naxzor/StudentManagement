@@ -1,4 +1,4 @@
-Dette project demonstrerer change based migrations med entity framework og postgreSQL
+Dette Afsnit demonstrerer change based migrations med entity framework og postgreSQL
 
 Hver ændring i domænemodellen blev fulgt op med en migration, samt kontrol af migration filen, for at sikre vi ville opnå de ønskede ændringer, 
 inden der blev lavet en opdatering af databasen. Hvorefter vi kontrollerede igen i databasen at vi fik ænskede resultat
@@ -68,3 +68,49 @@ for at migrate data til det nye.
 Yderligere har jeg prøvet at opsætte databasen så den afspejler virkeligheden f.eks Middelname som nullable vs notnullable.
 Samtidig har jeg prøvet at lave en delete behavior der afspejler en beskyttelse af forretningdata (Restrict på master-tabeller, Cascade på afhængigheder)
 og Decimal-præcision er valgt ud fra domæne (bugdet/credit)
+
+
+
+Dette Afsnit demonstrerer State based migrations med Atlas og postgreSQL
+
+først opsatte jeg en directory med 2 filer der hedder state-basedatlas.hcl og basedschema.hcl da vi bruger atlas via container til at vise os Diff på State schema som lave vores SQL.
+state-basedatlas.hcl indeholder vores connection til databasen men da det kører i docker henviser vi til en anden container. samtidig er der en DEv url den er kun til at atlas forstår jeg, 
+bruger postgreSQL så den ved hvilken databse dialekt den skal bruge
+
+1: Initial schema
+
+ligesom i EF delen har jeg lavet Entities Student, Course, enrollment. disse er skrevett ind i baseschema.hcl hvorfter jeg har kørt kommandoen fra Atlastcommands.txt til at teste diff og derefter
+har jeg brugt den anden til at apply det til databsen hvis diff var efter hensigten.
+Jeg har brugt samme fremgangsmåde i henhold til constraints og delete så den del vil jeg ikke gå ind i her.
+jeg har valgt for at gemme de gamle schema's for bedre oversigt inden opdatering dette er ikke normal men er valgt så man kan se hvordan de så ud de bliver flyttet til en mappe jeg har kaldt migrations
+dette afspejler hvordan det er gjort med EF. Herefter opdatere jeg basedschema.hcl (det schema som er sådan databasen skulle se ud)
+
+2: Student.MiddleName
+
+her smider jeg en column med middlename ind sætter den nulable og køre diff og derfter apply
+
+3: Student.DateOfBirth
+
+igen her gør jeg det samme bare med DateOfBirth og sikre den er sat til date kører diff og apply 
+
+4: Instructor
+
+jeg opretter på samme måde en ny tabel schema på Instructor kører diff og apply
+
+5: Course - Instructor(FK)
+
+jeg laver nu en FK mellem Course og instructors i schema'et og laver diff og apply
+
+6: Department
+
+Jeg oprettede en tabel her med department og lavede FK til Course ligesom jeg gjorde i Change migrations og kontrollerede det var som det skulle være med Diff og lavede en apply
+
+8: Course.Credit
+
+til slut skiftede jeg int igen til decimal og kontrollerede det hele var som skulle være med diff og apply
+
+
+Reflection
+
+
+jeg synes helt klart at Change er nemmere at arbejde med under udviklingen af et system. men dog har man meget større overblik under State based men det kan være svært at holde tungen lige i munden når projectet bliver stort dog krøver det ingen kode base for at lave database ændringer som med EF der skal man rette i koden for at ændre her har du bare et skema som man applyer på databasen med ændringer og du har større overblik
