@@ -33,6 +33,10 @@ public class StudentContext : DbContext
             .HasForeignKey(c => c.InstructorId)
             .OnDelete(DeleteBehavior.SetNull);
         
+        b.Entity<Course>()
+            .Property(c => c.Credits)
+            .HasPrecision(5, 2);
+        
         b.Entity<Enrollment>()
             .HasOne(e => e.Student)
             .WithMany(s => s.Enrollments)
