@@ -63,6 +63,11 @@ table "Courses" {
     null = true
   }
 
+  column "DepartmentId" {
+    type = int
+    null = false
+  }
+
   primary_key {
     columns = [column.Id]
   }
@@ -71,6 +76,12 @@ table "Courses" {
     columns     = [column.InstructorId]
     ref_columns = [table.Instructors.column.Id]
     on_delete   = SET_NULL
+  }
+
+  foreign_key "fk_courses_department" {
+    columns     = [column.DepartmentId]
+    ref_columns = [table.Departments.column.Id]
+    on_delete   = NO_ACTION
   }
 }
 
