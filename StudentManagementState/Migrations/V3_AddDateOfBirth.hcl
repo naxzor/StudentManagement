@@ -58,53 +58,8 @@ table "Courses" {
     null = false
   }
 
-  column "InstructorId" {
-    type = int
-    null = true
-  }
-
   primary_key {
     columns = [column.Id]
-  }
-
-  foreign_key "fk_courses_instructor" {
-    columns     = [column.InstructorId]
-    ref_columns = [table.Instructors.column.Id]
-    on_delete   = SET_NULL
-  }
-}
-
-table "Instructors" {
-  schema = schema.public
-
-  column "Id" {
-    type = int
-    null = false
-  }
-  column "FirstName" {
-    type = varchar(255)
-    null = false
-  }
-  column "LastName" {
-    type = varchar(255)
-    null = false
-  }
-  column "Email" {
-    type = varchar(255)
-    null = false
-  }
-  column "HireDate" {
-    type = date
-    null = false
-  }
-
-  primary_key {
-    columns = [column.Id]
-  }
-
-  index "IX_Instructors_Email" {
-    unique  = true
-    columns = [column.Email]
   }
 }
 
