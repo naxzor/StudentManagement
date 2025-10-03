@@ -144,3 +144,43 @@ table "Enrollments" {
     on_delete   = CASCADE
   }
 }
+
+table "Departments" {
+  schema = schema.public
+
+  column "Id" {
+    type = int
+    null = false
+  }
+  column "Name" {
+    type = varchar(255)
+    null = false
+  }
+  column "Budget" {
+    type = numeric(12,2)
+    null = false
+  }
+  column "StartDate" {
+    type = date
+    null = false
+  }
+  column "DepartmentHeadId" {
+    type = int
+    null = true
+  }
+
+  primary_key {
+    columns = [column.Id]
+  }
+
+  index "UX_Departments_DepartmentHeadId" {
+    unique  = true
+    columns = [column.DepartmentHeadId]
+  }
+
+  foreign_key "fk_departments_head" {
+    columns     = [column.DepartmentHeadId]
+    ref_columns = [table.Instructors.column.Id]
+    on_delete   = NO_ACTION
+  }
+}
