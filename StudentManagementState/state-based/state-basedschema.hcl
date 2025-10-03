@@ -11,6 +11,10 @@ table "Students" {
     type = varchar(255)
     null = false
   }
+  column "MiddleName" {
+    type = varchar(255)
+    null = true
+  }
   column "LastName" {
     type = varchar(255)
     null = false
