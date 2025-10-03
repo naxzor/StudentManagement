@@ -63,6 +63,40 @@ table "Courses" {
   }
 }
 
+table "Instructors" {
+  schema = schema.public
+
+  column "Id" {
+    type = int
+    null = false
+  }
+  column "FirstName" {
+    type = varchar(255)
+    null = false
+  }
+  column "LastName" {
+    type = varchar(255)
+    null = false
+  }
+  column "Email" {
+    type = varchar(255)
+    null = false
+  }
+  column "HireDate" {
+    type = date
+    null = false
+  }
+
+  primary_key {
+    columns = [column.Id]
+  }
+
+  index "IX_Instructors_Email" {
+    unique  = true
+    columns = [column.Email]
+  }
+}
+
 table "Enrollments" {
   schema = schema.public
 
