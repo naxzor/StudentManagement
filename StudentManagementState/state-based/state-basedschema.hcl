@@ -27,6 +27,10 @@ table "Students" {
     type = timestamp
     null = false
   }
+  column "DateOfBirth" {
+    type = date
+    null = true
+  }
 
   primary_key {
     columns = [column.Id]
