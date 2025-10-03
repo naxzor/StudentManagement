@@ -54,7 +54,7 @@ table "Courses" {
     null = false
   }
   column "Credits" {
-    type = numeric(5,2)
+    type = int
     null = false
   }
 
