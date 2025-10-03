@@ -58,8 +58,19 @@ table "Courses" {
     null = false
   }
 
+  column "InstructorId" {
+    type = int
+    null = true
+  }
+
   primary_key {
     columns = [column.Id]
+  }
+
+  foreign_key "fk_courses_instructor" {
+    columns     = [column.InstructorId]
+    ref_columns = [table.Instructors.column.Id]
+    on_delete   = SET_NULL
   }
 }
 
