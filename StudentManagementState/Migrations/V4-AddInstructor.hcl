@@ -58,30 +58,8 @@ table "Courses" {
     null = false
   }
 
-  column "InstructorId" {
-    type = int
-    null = true
-  }
-
-  column "DepartmentId" {
-    type = int
-    null = false
-  }
-
   primary_key {
     columns = [column.Id]
-  }
-
-  foreign_key "fk_courses_instructor" {
-    columns     = [column.InstructorId]
-    ref_columns = [table.Instructors.column.Id]
-    on_delete   = SET_NULL
-  }
-
-  foreign_key "fk_courses_department" {
-    columns     = [column.DepartmentId]
-    ref_columns = [table.Departments.column.Id]
-    on_delete   = NO_ACTION
   }
 }
 
@@ -153,45 +131,5 @@ table "Enrollments" {
     columns     = [column.CourseId]
     ref_columns = [table.Courses.column.Id]
     on_delete   = CASCADE
-  }
-}
-
-table "Departments" {
-  schema = schema.public
-
-  column "Id" {
-    type = int
-    null = false
-  }
-  column "Name" {
-    type = varchar(255)
-    null = false
-  }
-  column "Budget" {
-    type = numeric(12,2)
-    null = false
-  }
-  column "StartDate" {
-    type = date
-    null = false
-  }
-  column "DepartmentHeadId" {
-    type = int
-    null = true
-  }
-
-  primary_key {
-    columns = [column.Id]
-  }
-
-  index "UX_Departments_DepartmentHeadId" {
-    unique  = true
-    columns = [column.DepartmentHeadId]
-  }
-
-  foreign_key "fk_departments_head" {
-    columns     = [column.DepartmentHeadId]
-    ref_columns = [table.Instructors.column.Id]
-    on_delete   = NO_ACTION
   }
 }
