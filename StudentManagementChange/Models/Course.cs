@@ -7,4 +7,6 @@ public class Course
     public int Credits  { get; set; }
     public int? InstructorId { get; set; }
     public Instructor? Instructor { get; set; }
+    public int DepartmentId { get; set; }
+    public Department Department { get; set; } = null!;
 }

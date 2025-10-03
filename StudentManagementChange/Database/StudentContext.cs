@@ -11,6 +11,7 @@ public class StudentContext : DbContext
     public DbSet<Course> Courses => Set<Course>();
     public DbSet<Enrollment> Enrollments => Set<Enrollment>();
     public DbSet<Instructor> Instructors => Set<Instructor>();
+    public DbSet<Department> Departments => Set<Department>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {
@@ -47,5 +48,21 @@ public class StudentContext : DbContext
         b.Entity<Enrollment>()
             .Property(e => e.FinalGrade)
             .HasPrecision(3, 1);
+        
+        b.Entity<Department>()
+            .Property(d => d.Budget)
+            .HasPrecision(12, 2);
+
+        b.Entity<Department>()
+            .HasOne(d => d.DepartmentHead)
+            .WithOne()
+            .HasForeignKey<Department>(d => d.DepartmentHeadId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        b.Entity<Course>()
+            .HasOne(c => c.Department)
+            .WithMany(d => d.Courses)
+            .HasForeignKey(c => c.DepartmentId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
